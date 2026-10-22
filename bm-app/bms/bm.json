@@ -1,0 +1,26 @@
+{
+    "apiVersion": "mdcap.robin.io/v1",
+    "kind": "BM",
+    "metadata": {
+        "labels": {},
+        "name": "vm-1",
+        "flavor": "default",
+        "version": "1",
+        "description": ""
+    },
+    "spec": {
+        "connectors": {
+            "bmc": {
+                "bmchost": "10.7.82.63",
+                "password": "robin123",
+                "username": "root"
+            },
+            "ssh": {
+                "sshhost": "10.7.82.63",
+                "password": "robin123",
+                "username": "robin"
+            }
+        }
+    }
+
+}

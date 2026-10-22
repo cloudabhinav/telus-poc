@@ -1,0 +1,7 @@
+resources:
+- push-job.yaml
+configMapGenerator:
+- name: bm-config
+  files:
+  - bms/bm-01.json
+  - bms/bm-02.json

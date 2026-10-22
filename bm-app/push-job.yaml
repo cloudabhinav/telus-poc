@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: push-bm-config
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: show
+        image: busybox
+        command: ["sh","-c"]
+        args:
+        - |
+          echo "Files seen by hook:"
+          for f in /cfg/*.json; do echo "== $f"; sha256sum "$f"; done
+        volumeMounts:
+        - {name: cfg, mountPath: /cfg}
+      volumes:
+      - name: cfg
+        configMap:
+          name: bm-config
