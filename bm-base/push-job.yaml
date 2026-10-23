@@ -11,12 +11,12 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-      - name: show
+      - name: push
         image: busybox
         command: ["sh","-c"]
         args:
         - |
-          echo "Files seen by hook:"
+          echo "BM file seen by hook:"
           for f in /cfg/*.json; do echo "== $f"; sha256sum "$f"; done
         volumeMounts:
         - {name: cfg, mountPath: /cfg}

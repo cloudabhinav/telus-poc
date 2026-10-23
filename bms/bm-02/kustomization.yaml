@@ -1,0 +1,7 @@
+resources:
+- ../../bm-base
+nameSuffix: -bm-02
+configMapGenerator:
+- name: bm-config
+  files:
+  - bm-02.json
