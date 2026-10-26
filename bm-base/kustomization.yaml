@@ -1,2 +1,6 @@
 resources:
 - push-job.yaml
+configMapGenerator:
+- name: bm-script
+  files:
+  - push_bm.py
