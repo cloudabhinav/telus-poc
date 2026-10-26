@@ -12,7 +12,8 @@ spec:
       restartPolicy: Never
       containers:
       - name: push
-        image: busybox
+        image: artifactory.robinsystems.com/docker/mdcap/helm/mdcap-worker:4.3.1-381
+        imagePullPolicy: IfNotPresent
         command: ["python3","/scripts/push_bm.py"]
         args:
         - |
