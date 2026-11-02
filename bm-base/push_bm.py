@@ -44,16 +44,13 @@ def call(method, url, body=None, headers=None, ctx=engine_ctx, timeout=60):
     return json.loads(text) if text else {}
 
 def find_uid(name, auth):
-  offset, page = 0, 100
-  while True:
-      resp = call("GET", f"{ENGINE}/bm?limit={page}&offset={offset}", headers=auth)
-      items = resp.get("items", [])
+      resp = call("GET", f"{ENGINE}/bm?total=True", headers=auth)
+      items = resp if isinstance(resp, list) else resp.get("items", [])
       for item in items:
           if item["metadata"]["name"] == name:
               return item["metadata"]["uid"]
-      if len(items) < page:
-          raise RuntimeError(f"BM {name} reported as existing but not found in list")
-      offset += page
+      raise RuntimeError(f"BM {name} reported as existing but not found in list "
+                         f"(response keys: {list(resp) if isinstance(resp, dict) else 'list'})")
 
 def main():
     auth = login(read_admin_password())
