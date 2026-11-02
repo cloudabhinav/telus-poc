@@ -46,6 +46,7 @@ def call(method, url, body=None, headers=None, ctx=engine_ctx, timeout=60):
 def find_uid(name, auth):
       resp = call("GET", f"{ENGINE}/bm?total=True", headers=auth)
       items = resp if isinstance(resp, list) else resp.get("items", [])
+      print(json.dumps(resp))
       for item in items:
           if item["metadata"]["name"] == name:
               return item["metadata"]["uid"]
