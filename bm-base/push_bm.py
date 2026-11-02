@@ -15,6 +15,10 @@ engine_ctx.check_hostname = False
 engine_ctx.verify_mode = ssl.CERT_NONE
 k8s_ctx = ssl.create_default_context(cafile=f"{SA_DIR}/ca.crt")
 
+class ApiError(RuntimeError):
+  def __init__(self, msg, code):
+      super().__init__(msg)
+      self.code = code
 def read_admin_password():
     with open(f"{SA_DIR}/token") as fh:
         sa_token = fh.read().strip()
