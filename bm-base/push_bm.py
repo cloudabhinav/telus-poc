@@ -40,7 +40,7 @@ def call(method, url, body=None, headers=None, ctx=engine_ctx, timeout=60):
         with urllib.request.urlopen(req, context=ctx, timeout=timeout) as r:
             text = r.read().decode()
     except urllib.error.HTTPError as e:
-        raise RuntimeError(f"{method} {url} -> {e.code}: {e.read().decode()}")
+        raise ApiError(f"{method} {url} -> {e.code}: {e.read().decode()}", e.code)
     return json.loads(text) if text else {}
 
 def find_uid(name, auth):
@@ -52,7 +52,7 @@ def find_uid(name, auth):
           if item["metadata"]["name"] == name:
               return item["metadata"]["uid"]
       if len(items) < page:
-          raise ApiError(f"{method} {url} -> {e.code}: {e.read().decode()}", e.code) 
+          raise RuntimeError(f"BM {name} reported as existing but not found in list")
       offset += page
 
 def main():
