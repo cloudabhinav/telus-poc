@@ -15,10 +15,13 @@ spec:
         image: artifactory.robinsystems.com/docker/mdcap/helm/mdcap-worker:4.3.1-381
         imagePullPolicy: IfNotPresent
         command: ["python3","/scripts/push_bm.py"]
-        args:
-        - |
-          echo "BM file seen by hook:"
-          for f in /cfg/*.json; do echo "== $f"; sha256sum "$f"; done
+        env:
+        - {name: CONTROLLER_URL,       value: "https://mdcap1-engine.cno.svc.cluster.local:8000/api/v1"}
+        - {name: MDCAP_SECRET_NAMESPACE, value: "cno"}
+        - {name: MDCAP_SECRET_NAME,      value: "mdcap-env-secrets-cno"}
+        - {name: NGINX_NP_PORT, value: "9443"}
+        - {name: NGINX_NP_PORT_HTTP, value: "8080"}        
+        - {name: MDCAP_NGINX_PUBLIC_IP,  value: "10.9.104.225"}        
         volumeMounts:
         - {name: cfg, mountPath: /cfg}
         - {name: script, mountPath: /scripts}
