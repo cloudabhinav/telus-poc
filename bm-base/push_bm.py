@@ -1,7 +1,7 @@
 import base64, json, os, ssl, sys, time
 import urllib.error, urllib.request
 
-ENGINE = os.environ["CONTROLLER_URL"].rstrip("/") + "/api/v1"
+ENGINE = os.environ["CONTROLLER_URL"]
 SECRET_NS = os.environ["MDCAP_SECRET_NAMESPACE"]
 SECRET_NAME = os.environ["MDCAP_SECRET_NAME"]
 USERNAME = os.environ.get("MDCAP_ADMIN_USERNAME", "admin")
