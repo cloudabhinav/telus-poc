@@ -52,7 +52,7 @@ def find_uid(name, auth):
           if item["metadata"]["name"] == name:
               return item["metadata"]["uid"]
       if len(items) < page:
-          raise ApiError(f"{method} {url} -> {e.code}: {e.read().decode()}", e.code)
+          raise ApiError(f"{method} {url} -> {e.code}: {e.read().decode()}", e.code) 
       offset += page
 
 def main():
