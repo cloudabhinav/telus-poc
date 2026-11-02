@@ -41,7 +41,13 @@ def call(method, url, body=None, headers=None, ctx=engine_ctx, timeout=60):
             text = r.read().decode()
     except urllib.error.HTTPError as e:
         raise ApiError(f"{method} {url} -> {e.code}: {e.read().decode()}", e.code)
-    return json.loads(text) if text else {}
+    if not text:
+        return {}
+        try:
+            return json.loads(text)
+        except ValueError:
+            print(f"{method} {url} -> non-JSON response: {text[:300]!r}", flush=True)
+            return {"raw": text}
 
 def find_uid(name, auth):
       resp = call("GET", f"{ENGINE}/bm?total=True", headers=auth)
