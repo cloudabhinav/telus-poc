@@ -49,6 +49,7 @@ def find_uid(name, auth):
       print(json.dumps(resp))
       for item in items:
           if item["metadata"]["name"] == name:
+              print(item["metadata"]["name"])
               return item["metadata"]["uid"]
       raise RuntimeError(f"BM {name} reported as existing but not found in list "
                          f"(response keys: {list(resp) if isinstance(resp, dict) else 'list'})")
