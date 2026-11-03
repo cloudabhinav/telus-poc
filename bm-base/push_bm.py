@@ -1,6 +1,5 @@
 import base64, json, glob, os, ssl, sys, time
 import urllib.error, urllib.request
-import pdb 
 
 ENGINE = os.environ["CONTROLLER_URL"]
 SECRET_NS = os.environ["MDCAP_SECRET_NAMESPACE"]
