@@ -1,5 +1,6 @@
 import base64, json, glob, os, ssl, sys, time
 import urllib.error, urllib.request
+from remote_pdb import RemotePdb
 
 ENGINE = os.environ["CONTROLLER_URL"]
 SECRET_NS = os.environ["MDCAP_SECRET_NAMESPACE"]
@@ -36,6 +37,7 @@ def call(method, url, body=None, headers=None, ctx=engine_ctx, timeout=60):
     hdrs = {"Content-Type": "application/json"}
     hdrs.update(headers or {})
     req = urllib.request.Request(url, data=data, method=method, headers=hdrs)
+    RemotePdb("0.0.0.0", 4444).set_trace()
     try:
         with urllib.request.urlopen(req, context=ctx, timeout=timeout) as r:
             text = r.read().decode()

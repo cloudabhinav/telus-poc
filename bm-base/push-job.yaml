@@ -12,7 +12,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: push
-        image: artifactory.robinsystems.com/docker/mdcap/helm/mdcap-worker:4.3.1-381
+        image: artifactory.robinsystems.com/docker/mdcap/helm/mdcap-worker:4.3.1-381-rpdb
         imagePullPolicy: IfNotPresent
         command: ["python3","/scripts/push_bm.py"]
         env:
