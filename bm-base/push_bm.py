@@ -1,6 +1,6 @@
 import base64, json, glob, os, ssl, sys, time
 import urllib.error, urllib.request
-import rpdb 
+import pdb 
 
 ENGINE = os.environ["CONTROLLER_URL"]
 SECRET_NS = os.environ["MDCAP_SECRET_NAMESPACE"]
@@ -37,7 +37,6 @@ def call(method, url, body=None, headers=None, ctx=engine_ctx, timeout=60):
     hdrs = {"Content-Type": "application/json"}
     hdrs.update(headers or {})
     req = urllib.request.Request(url, data=data, method=method, headers=hdrs)
-    rpdb.Rpdb(addr="0.0.0.0", port=4444).set_trace()
     try:
         with urllib.request.urlopen(req, context=ctx, timeout=timeout) as r:
             text = r.read().decode()
@@ -45,11 +44,11 @@ def call(method, url, body=None, headers=None, ctx=engine_ctx, timeout=60):
         raise ApiError(f"{method} {url} -> {e.code}: {e.read().decode()}", e.code)
     if not text:
         return {}
-        try:
-            return json.loads(text)
-        except ValueError:
-            print(f"{method} {url} -> non-JSON response: {text[:300]!r}", flush=True)
-            return {"raw": text}
+    try:
+        return json.loads(text)
+    except ValueError:
+        print(f"{method} {url} -> non-JSON response: {text[:300]!r}", flush=True)
+        return {"raw": text}
 
 def find_uid(name, auth):
       resp = call("GET", f"{ENGINE}/bm?total=True", headers=auth)
