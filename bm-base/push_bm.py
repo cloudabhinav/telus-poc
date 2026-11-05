@@ -70,19 +70,19 @@ def main():
             name = bm["metadata"]["name"]
             try:
                 try:
-                    r = call("POST", f"{ENGINE}/bm", bm, headers=auth)
-                    print(f"created BM {name}: {r.get('msg')}", flush=True)
+                    r = call("POST", f"{ENGINE}/rc", bm, headers=auth)
+                    print(f"created RC {name}: {r.get('msg')}", flush=True)
                 except ApiError as e:
                     if e.code != 409:
                         raise
                     uid = find_uid(name, auth)
-                    call("PUT", f"{ENGINE}/bm/{uid}", bm, headers=auth)
-                    print(f"updated BM {name} ({uid})", flush=True)
+                    call("PUT", f"{ENGINE}/rc/{uid}", bm, headers=auth)
+                    print(f"updated RC {name} ({uid})", flush=True)
             except Exception as e:
-                print(f"FAILED BM {name}: {e}", flush=True)
+                print(f"FAILED RC {name}: {e}", flush=True)
                 failed.append(name)
     if failed:
-      sys.exit(f"failed BMs: {', '.join(failed)}")
+      sys.exit(f"failed RCs: {', '.join(failed)}")
 
 if __name__ == "__main__":
     try:

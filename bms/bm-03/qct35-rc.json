@@ -1,0 +1,95 @@
+{
+    "apiVersion": "mdcap.robin.io/v1",
+    "kind": "ROBINCLUSTER",
+    "metadata": {
+        "name": "qct352",
+        "flavor": "default",
+        "version": "1.0",
+        "description": "qct35-Element description",
+        "labels": {
+            "location": "sfo",
+            "vmaas": "true",
+            "prod":"true"
+        }
+    },
+    "spec": {
+        "infra": {
+            "qct-352": {
+                "apiVersion": "mdcap.robin.io/v1",
+                "kind": "BM",
+                "metadata": {
+                    "name": "qct-352",
+                    "version": "1.0",
+                    "flavor": "default",
+                    "description": "qct35",
+                    "labels": {
+                        "vmaas": "true",
+                        "cluster": "qct352",
+                        "location": "sfo"
+                    }
+                },
+                "spec": {
+                    "config": {
+                        "os": {
+                            "hostname": "qct-35.robinsystems.com",
+                            "ip": "10.7.90.23",
+                            "mtu": "",
+                            "gateway": "",
+                            "netmask": "",
+                            "domain": "",
+                            "dns": "",
+                            "search": ""
+                        },
+                        "kickstart_url": "",
+                        "artifactory": {
+                            "os_repo_url": "",
+                            "bmaas_artifactory_url": "",
+                            "package_repofile_url": "",
+                            "robin_build_url": ""
+                        }
+                    },
+                    "connectors": {
+                        "ssh": {
+                            "sshhost": "10.7.90.23",
+                            "username": "root",
+                            "password": "robin123"
+                        },
+                        "bmc": {
+                            "bmchost": "10.7.91.23",
+                            "username": "admin",
+                            "password": "Robin123!"
+                        }
+                    }
+                }
+            }
+        },
+        "connectors": {
+            "http": {
+                "ip": "10.7.90.23",
+                "port": "29442"
+            }
+        },
+        "robin_config": {
+            "build_url": "http://builds.robinsystems.com/master",
+            "server_install_args": "--ignore-warnings",
+            "agent_install_args": "--ignore-warnings",
+            "install_type": "NON-HA",
+            "ip_pools": [],
+            "name": "qct35",
+            "primary_master": "qct-352",
+            "robin_password": "Robin123",
+            "robin_user": "admin",
+            "secondary_masters": [],
+            "agents": [],
+            "security": {},
+            "version": "5.4.3",
+            "ui_ip": "10.7.90.23",
+            "external_metrics_url": "https://10.7.90.23:29443/prometheus/graph",
+            "internal_metrics_url": "/robincluster/qct35/prometheus/graph",
+            "external_guacamole_url": "https://10.7.90.23:29443/vdi-administrators/vdi/",
+            "internal_guacamole_url": "/robincluster/qct35/vmconsole/",
+            "vip": "10.7.90.23",
+            "vrid": ""
+        }
+    }
+}
