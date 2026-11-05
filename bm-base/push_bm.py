@@ -70,7 +70,7 @@ def main():
             name = elem["metadata"]["name"]
             try:
                 try:
-                    if elem["kind"]= "BM":
+                    if elem["kind"]== "BM":
 
                         r = call("POST", f"{ENGINE}/bm", elem, headers=auth)
                     else:    
@@ -80,7 +80,7 @@ def main():
                     if e.code != 409:
                         raise
                     uid = find_uid(name, auth)
-                    if elem["kind"]= "BM":
+                    if elem["kind"]== "BM":
                         call("PUT", f"{ENGINE}/bm/{uid}", elem, headers=auth)
                     else:
                         call("PUT", f"{ENGINE}/robincluster/{uid}", elem, headers=auth)
