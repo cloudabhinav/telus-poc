@@ -70,13 +70,13 @@ def main():
             name = bm["metadata"]["name"]
             try:
                 try:
-                    r = call("POST", f"{ENGINE}/rc", bm, headers=auth)
+                    r = call("POST", f"{ENGINE}/robincluster", bm, headers=auth)
                     print(f"created RC {name}: {r.get('msg')}", flush=True)
                 except ApiError as e:
                     if e.code != 409:
                         raise
                     uid = find_uid(name, auth)
-                    call("PUT", f"{ENGINE}/rc/{uid}", bm, headers=auth)
+                    call("PUT", f"{ENGINE}/robincluster/{uid}", bm, headers=auth)
                     print(f"updated RC {name} ({uid})", flush=True)
             except Exception as e:
                 print(f"FAILED RC {name}: {e}", flush=True)
