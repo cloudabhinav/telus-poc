@@ -2,6 +2,6 @@ resources:
 - ../../bm-base
 nameSuffix: -rc-01
 configMapGenerator:
-- name: rc-config
+- name: bm-config
   files:
   - qct35-rc.json
