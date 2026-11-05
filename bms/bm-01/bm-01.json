@@ -13,7 +13,7 @@
             "bmc": {
                 "bmchost": "10.7.82.63",
                 "password": "robin111",
-                "username": "root123"
+                "username": "root12322"
             },
             "ssh": {
                 "sshhost": "10.7.82.63",
