@@ -49,8 +49,9 @@ def call(method, url, body=None, headers=None, ctx=engine_ctx, timeout=60):
         print(f"{method} {url} -> non-JSON response: {text[:300]!r}", flush=True)
         return {"raw": text}
 
-def find_uid(name, auth):
-      resp = call("GET", f"{ENGINE}/bm?total=True", headers=auth)
+def find_uid(name,kind, auth):
+      kind = kind.lower()
+      resp = call("GET", f"{ENGINE}/{kind}?total=True", headers=auth)
       items = resp if isinstance(resp, list) else resp.get("items", [])
       print(json.dumps(resp))
       for item in items:
@@ -80,7 +81,7 @@ def main():
                 except ApiError as e:
                     if e.code != 409:
                         raise
-                    uid = find_uid(name, auth)
+                    uid = find_uid(name,kind, auth)
                     if kind== "BM":
                         call("PUT", f"{ENGINE}/bm/{uid}", elem, headers=auth)
                     else:
