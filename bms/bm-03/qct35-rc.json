@@ -6,6 +6,7 @@
         "flavor": "default",
         "version": "1.0",
         "description": "qct35-Element description",
+	"bmp-name": "dummyname",
         "labels": {
             "location": "sfo",
             "vmaas": "true",
