@@ -68,28 +68,29 @@ def main():
             doc = json.load(fh)
         for elem in (doc if isinstance(doc, list) else [doc]):
             name = elem["metadata"]["name"]
+            kind = elem["kind"]
             try:
                 try:
-                    if elem["kind"]== "BM":
+                    if kind== "BM":
 
                         r = call("POST", f"{ENGINE}/bm", elem, headers=auth)
                     else:    
                         r = call("POST", f"{ENGINE}/robincluster", elem, headers=auth)
-                    print(f"created {elem["kind"]} {name}: {r.get('msg')}", flush=True)
+                    print(f"created {kind} {name}: {r.get('msg')}", flush=True)
                 except ApiError as e:
                     if e.code != 409:
                         raise
                     uid = find_uid(name, auth)
-                    if elem["kind"]== "BM":
+                    if kind== "BM":
                         call("PUT", f"{ENGINE}/bm/{uid}", elem, headers=auth)
                     else:
                         call("PUT", f"{ENGINE}/robincluster/{uid}", elem, headers=auth)
-                    print(f"updated {elem["kind"]} {name} ({uid})", flush=True)
+                    print(f"updated {kind} {name} ({uid})", flush=True)
             except Exception as e:
-                print(f"FAILED {elem["kind"]} {name}: {e}", flush=True)
+                print(f"FAILED {kind} {name}: {e}", flush=True)
                 failed.append(name)
     if failed:
-      sys.exit(f"failed {elem["kind"]}: {', '.join(failed)}")
+      sys.exit(f"failed {kind}: {', '.join(failed)}")
 
 if __name__ == "__main__":
     try:
