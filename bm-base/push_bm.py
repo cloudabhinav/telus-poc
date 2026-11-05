@@ -66,23 +66,30 @@ def main():
     for path in sorted(glob.glob(f"{CFG_DIR}/*.json")):
         with open(path) as fh:
             doc = json.load(fh)
-        for bm in (doc if isinstance(doc, list) else [doc]):
-            name = bm["metadata"]["name"]
+        for elem in (doc if isinstance(doc, list) else [doc]):
+            name = elem["metadata"]["name"]
             try:
                 try:
-                    r = call("POST", f"{ENGINE}/robincluster", bm, headers=auth)
-                    print(f"created RC {name}: {r.get('msg')}", flush=True)
+                    if elem["kind"]= "BM":
+
+                        r = call("POST", f"{ENGINE}/bm", elem, headers=auth)
+                    else:    
+                        r = call("POST", f"{ENGINE}/robincluster", elem, headers=auth)
+                    print(f"created {elem["kind"]} {name}: {r.get('msg')}", flush=True)
                 except ApiError as e:
                     if e.code != 409:
                         raise
                     uid = find_uid(name, auth)
-                    call("PUT", f"{ENGINE}/robincluster/{uid}", bm, headers=auth)
-                    print(f"updated RC {name} ({uid})", flush=True)
+                    if elem["kind"]= "BM":
+                        call("PUT", f"{ENGINE}/bm/{uid}", elem, headers=auth)
+                    else:
+                        call("PUT", f"{ENGINE}/robincluster/{uid}", elem, headers=auth)
+                    print(f"updated {elem["kind"]} {name} ({uid})", flush=True)
             except Exception as e:
-                print(f"FAILED RC {name}: {e}", flush=True)
+                print(f"FAILED {elem["kind"]} {name}: {e}", flush=True)
                 failed.append(name)
     if failed:
-      sys.exit(f"failed RCs: {', '.join(failed)}")
+      sys.exit(f"failed {elem["kind"]}: {', '.join(failed)}")
 
 if __name__ == "__main__":
     try:
