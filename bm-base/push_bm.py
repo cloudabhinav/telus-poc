@@ -6,7 +6,6 @@ SECRET_NS = os.environ["MDCAP_SECRET_NAMESPACE"]
 SECRET_NAME = os.environ["MDCAP_SECRET_NAME"]
 USERNAME = os.environ.get("MDCAP_ADMIN_USERNAME", "admin")
 TENANT = os.environ.get("MDCAP_TENANT", "default")
-DEFS = os.environ.get("BM_DEFINITIONS", "/config/bms.json")
 WAIT_SECS = int(os.environ.get("ENGINE_WAIT_SECS", "600"))
 SA_DIR = "/var/run/secrets/kubernetes.io/serviceaccount"
 CFG_DIR = os.environ.get("BM_DEFINITIONS_DIR", "/cfg")
@@ -61,6 +60,18 @@ def find_uid(name,kind, auth):
       raise RuntimeError(f"BM {name} reported as existing but not found in list "
                          f"(response keys: {list(resp) if isinstance(resp, dict) else 'list'})")
 
+def trigger_install(kind, uid, elem, auth):
+    if kind == "BM":
+        r = call("PUT", f"{ENGINE}/bm/wf/os-install/{uid}", {}, headers=auth)
+        return r.get("wf_tracker")
+    install_type = elem.get("spec", {}).get("robin_config", {}).get("install_type", "").lower()
+    if install_type not in ("ha", "non-ha"):
+        raise RuntimeError(f"cannot pick RC install workflow, unknown install_type {install_type!r}")
+    wf_name = "robin-ha-install" if install_type == "ha" else "robin-nonha-install"
+    spec = call("PUT", f"{ENGINE}/robincluster", {"wf_name": wf_name, "uids": [uid]}, headers=auth)
+    r = call("POST", f"{ENGINE}/batch/bow", {"spec": spec}, headers=auth)
+    return r.get("wf_tracker")
+
 def main():
     auth = login(read_admin_password())
     failed = []
@@ -71,13 +82,15 @@ def main():
             name = elem["metadata"]["name"]
             kind = elem["kind"]
             try:
+                created_uid = None
                 try:
                     if kind== "BM":
 
                         r = call("POST", f"{ENGINE}/bm", elem, headers=auth)
-                    else:    
+                    else:
                         r = call("POST", f"{ENGINE}/robincluster", elem, headers=auth)
                     print(f"created {kind} {name}: {r.get('msg')}", flush=True)
+                    created_uid = r["id"]
                 except ApiError as e:
                     if e.code != 409:
                         raise
@@ -87,6 +100,9 @@ def main():
                     else:
                         call("PUT", f"{ENGINE}/robincluster/{uid}", elem, headers=auth)
                     print(f"updated {kind} {name} ({uid})", flush=True)
+                if created_uid:
+                    tracker = trigger_install(kind, created_uid, elem, auth)
+                    print(f"triggered install for {kind} {name} ({created_uid}): wf_tracker={tracker}", flush=True)
             except Exception as e:
                 print(f"FAILED {kind} {name}: {e}", flush=True)
                 failed.append(name)
@@ -99,4 +115,3 @@ if __name__ == "__main__":
     except Exception as e:
         print("FAILED:", e)
         sys.exit(1)
-
