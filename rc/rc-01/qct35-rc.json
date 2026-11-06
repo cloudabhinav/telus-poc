@@ -75,7 +75,7 @@
             "server_install_args": "--ignore-warnings",
             "agent_install_args": "--ignore-warnings",
             "install_type": "NON-HA",
-            "ip_pools": [],
+            "ip_pools": ["dummy"],
             "name": "qct35",
             "primary_master": "qct-352",
             "robin_password": "Robin123",
