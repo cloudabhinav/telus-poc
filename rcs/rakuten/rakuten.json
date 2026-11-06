@@ -1,0 +1,149 @@
+{
+    "apiVersion": "mdcap.robin.io/v1",
+    "kind": "ROBINCLUSTER",
+    "metadata": {
+        "name": "rakuten",
+        "flavor": "default",
+        "version": "1.0",
+        "description": "4 node Robin CNP HA Cluster",
+        "labels": {
+            "location": "sfo",
+            "prod": "false",
+            "vmaas": "true"
+        }
+    },
+    "spec": {
+        "robin_config": {
+            "build_url": "http://builds.robinsystems.com/master",
+            "install_type": "HA",
+            "name": "rakuten",
+            "primary_master": "qct-56",
+            "robin_password": "Robin12",
+            "robin_user": "admin",
+            "secondary_masters": [
+                "qct-57",
+                "qct-58"
+            ],
+            "security": {},
+            "version": "5.4.3",
+            "vip": "10.9.90.203",
+            "vrid": "213",
+            "server_install_args": "--ignore-warnings",
+            "agent_install_args": "--ignore-warnings",
+            "ip_pools": [],
+            "agents": [
+                "qct-59"
+            ],
+            "ha_primary_install_args": "--ignore-warnings",
+            "ha_secondary_install_args": "--ignore-warnings",
+            "prod": false,
+            "host_script_args": "--ignore-warnings --docker-storage-driver=overlay2",
+            "k8s_script_args": "--ignore-warnings",
+            "k8s_plus_script_args": "--ignore-warnings",
+            "robin_script_args": "",
+            "configs": []
+        },
+        "infra": {
+            "qct-56": {
+                "apiVersion": "mdcap.robin.io/v1",
+                "kind": "BM",
+                "metadata": {
+                    "labels": {},
+                    "name": "qct-56",
+                    "flavor": "",
+                    "version": "",
+                    "description": ""
+                },
+                "spec": {
+                    "connectors": {
+                        "bmc": {
+                            "bmchost": "10.7.91.25",
+                            "password": "Lab1234!",
+                            "username": "admin"
+                        },
+                        "ssh": {
+                            "sshhost": "10.9.20.239",
+                            "password": "robin123",
+                            "username": "root"
+                        }
+                    }
+                }
+            },
+            "qct-57": {
+                "apiVersion": "mdcap.robin.io/v1",
+                "kind": "BM",
+                "metadata": {
+                    "labels": {},
+                    "name": "qct-57",
+                    "flavor": "",
+                    "version": "",
+                    "description": ""
+                },
+                "spec": {
+                    "connectors": {
+                        "bmc": {
+                            "bmchost": "10.7.91.26",
+                            "password": "Lab1234!",
+                            "username": "admin"
+                        },
+                        "ssh": {
+                            "sshhost": "10.9.20.240",
+                            "password": "robin123",
+                            "username": "root"
+                        }
+                    }
+                }
+            },
+            "qct-58": {
+                "apiVersion": "mdcap.robin.io/v1",
+                "kind": "BM",
+                "metadata": {
+                    "labels": {},
+                    "name": "qct-58",
+                    "flavor": "",
+                    "version": "",
+                    "description": ""
+                },
+                "spec": {
+                    "connectors": {
+                        "bmc": {
+                            "bmchost": "10.7.91.27",
+                            "password": "Lab1234!",
+                            "username": "admin"
+                        },
+                        "ssh": {
+                            "sshhost": "10.9.20.241",
+                            "password": "robin123",
+                            "username": "root"
+                        }
+                    }
+                }
+            },
+            "qct-59": {
+                "apiVersion": "mdcap.robin.io/v1",
+                "kind": "BM",
+                "metadata": {
+                    "labels": {},
+                    "name": "qct-59",
+                    "flavor": "",
+                    "version": "",
+                    "description": ""
+                },
+                "spec": {
+                    "connectors": {
+                        "bmc": {
+                            "bmchost": "10.7.91.28",
+                            "password": "Lab1234!",
+                            "username": "admin"
+                        },
+                        "ssh": {
+                            "sshhost": "10.9.20.242",
+                            "password": "robin123",
+                            "username": "root"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
