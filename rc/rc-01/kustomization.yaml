@@ -1,5 +1,5 @@
 resources:
-- ../../bm-base
+- ../../elem-base
 nameSuffix: -rc-01
 configMapGenerator:
 - name: bm-config
