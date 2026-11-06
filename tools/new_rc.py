@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate rcs/<name>/{<name>.json,kustomization.yaml} for a new ROBINCLUSTER (RC).
+"""Generate rc/<name>/{<name>.json,kustomization.yaml} for a new ROBINCLUSTER (RC).
 
 Nodes are given with repeated --node NAME:SSH_IP[:BMC_IP]  (BMC_IP defaults to SSH_IP).
 SSH/BMC credentials are shared by all nodes.
@@ -25,7 +25,7 @@ Omit any *-pass option to be prompted.
 import argparse, getpass, json, os, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-RC_DIR = "rcs"   # output folder under the repo root
+RC_DIR = "rc"   # output folder under the repo root
 
 KUSTOMIZATION = """resources:
 - ../../bm-base
@@ -135,7 +135,7 @@ def build(a, nodes, install_type, creds, robin_pass):
 def main():
     p = argparse.ArgumentParser(description=__doc__,
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("name", help="RC name; also folder name under rcs/")
+    p.add_argument("name", help="RC name; also folder name under rc/")
     p.add_argument("--node", action="append", default=[], metavar="NAME:SSH_IP[:BMC_IP]",
                    help="repeat for each node; first = primary master")
     p.add_argument("--ip", help="single-node shortcut (node named <name>-bm)")

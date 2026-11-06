@@ -6,7 +6,7 @@ pushes to MDCAP. Python 3 standard library only; run from anywhere.
 | Tool | Creates | Output folder |
 |------|---------|---------------|
 | `new_bm.py` | a single `BM` | `bms/<name>/` |
-| `new_rc.py` | a `ROBINCLUSTER` (RC), NON-HA or HA | `rcs/<name>/` |
+| `new_rc.py` | a `ROBINCLUSTER` (RC), NON-HA or HA | `rc/<name>/` |
 
 Each run writes `<name>.json` and a `kustomization.yaml` (referencing `../../bm-base`,
 `nameSuffix: -<name>`). Existing folders are not overwritten unless you pass `--force`.
@@ -112,14 +112,14 @@ Add `--masters 5` and five or more `--node` entries.
 ## After generating
 
 1. Review the JSON.
-2. `git add bms/<name>` (or `rcs/<name>`), commit and push.
+2. `git add bms/<name>` (or `rc/<name>`), commit and push.
 3. ArgoCD's ApplicationSet creates an app per folder, and the PostSync job runs
    `push_bm.py`, which POSTs the object to MDCAP (or PUTs it if it already exists).
 
 **Note:** [argocd/bm-appset.yaml](../argocd/bm-appset.yaml) currently watches only
-`bms/*`. For `rcs/*` to deploy, add another entry under `directories:`:
+`bms/*`. For `rc/*` to deploy, add another entry under `directories:`:
 ```yaml
       directories:
       - path: bms/*
-      - path: rcs/*
+      - path: rc/*
 ```

@@ -1,7 +1,0 @@
-resources:
-- ../../bm-base
-nameSuffix: -rakuten
-configMapGenerator:
-- name: bm-config
-  files:
-  - rakuten.json
